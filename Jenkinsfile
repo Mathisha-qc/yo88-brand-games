@@ -7,16 +7,15 @@ pipeline {
     }
 
     stage('Setup Python') {
-       steps {
+      steps {
         bat '''
-        py -3.12 -m venv venv
+        py -m venv venv
         call venv\\Scripts\\activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         '''
       }
     }
-
 
     stage('test_bi_mat_cleopatra_flow') {
       steps { bat 'call venv\\Scripts\\activate && pytest -v -s tests\\test_bi_mat_cleopatra_flow.py' }
