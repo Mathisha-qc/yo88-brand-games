@@ -62,9 +62,10 @@ def driver():
     chrome_options.add_argument("--disable-renderer-backgrounding")
     chrome_options.add_argument("--disable-backgrounding-occluded-windows")
 
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--window-size=1920,1080")
+
     if is_ci:
-        chrome_options.add_argument("--headless=new")
-        chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
     
@@ -142,7 +143,7 @@ def pytest_runtest_call(item):
 
     if driver:
         # 2. SETUP VIDEO PATH & START RECORDING
-        video_path = report.run_dir / f"{item.name}.webm"
+        video_path = report.run_dir / f"{item.name}.mp4"
         
         # ✅ FIX: Pass BOTH the driver and the path
         recorder = ScreenRecorder(driver, str(video_path))
@@ -159,7 +160,11 @@ def pytest_runtest_call(item):
     # 3. STOP RECORDING & SAVE TO REPORT
     if recorder:
         recorder.stop()
-        report.video_path = str(video_path)
+        resolved_video_path = Path(recorder.path)
+        if resolved_video_path.exists():
+            report.video_path = str(resolved_video_path)
+        else:
+            print(f"[WARN] Video file was not created for {item.name}: {resolved_video_path}")
 
     report.add_step(
         name=item.name,

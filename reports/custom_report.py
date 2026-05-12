@@ -242,11 +242,17 @@ def write_html_report(report_obj: ExecutionReport, output_dir: Path):
     # ADD THIS VIDEO BLOCK:
     if getattr(report_obj, "video_path", None):
         rel_vid_path = Path(report_obj.video_path).name # Only the filename is needed since it's in root
+        video_ext = Path(report_obj.video_path).suffix.lower()
+        video_type = "video/mp4"
+        if video_ext == ".webm":
+            video_type = "video/webm"
+        elif video_ext == ".avi":
+            video_type = "video/x-msvideo"
         html.append(f"""
         <div style="background:white; padding:15px; border-radius:10px; margin-bottom:20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align:center;">
             <h3 style='margin-top:0; color:#333; text-align:left;'>🎥 Execution Video</h3>
             <video width="100%" style="max-width: 900px; border-radius:8px; border:1px solid #ddd; background:black;" controls>
-              <source src="{rel_vid_path}" type="video/mp4">
+              <source src="{rel_vid_path}" type="{video_type}">
             </video>
         </div>
         """)
