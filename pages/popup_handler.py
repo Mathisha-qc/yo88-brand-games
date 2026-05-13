@@ -80,6 +80,7 @@ class PopupHandler(BasePage):
                     from_cursor=True,
                     expected_direction="send"
                 )
+                print("[SUCCESS] CMD 306 received")
                 
           except AssertionError:
               print("[INFO] No CMD 305 (after UI)")

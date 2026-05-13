@@ -35,7 +35,7 @@ def pytest_configure(config):
     allure.dynamic.parameter("Browser", report.browser_name)
     allure.dynamic.parameter("Environment", "Production")
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def driver():
     # 1. Setup Chrome Options
     chrome_options = Options()
