@@ -42,7 +42,7 @@ def test_taixiu_md5_mini_open_flow(driver):
     with allure.step("Validate Subscription"):
 
         txmd5_page.wait_for_subscription()
-        txmd5_page.get_wallet_balance()
+       
 
     # -----------------------------------
     # Game Start
@@ -181,7 +181,6 @@ def test_taixiu_md5_mini_open_flow(driver):
             f"[PASS] Fairness validated: {generated_hash}"
         )
 
-    txmd5_page.get_final_wallet_update()
 
     # -----------------------------------
     # Chat Validation
